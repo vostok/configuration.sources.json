@@ -1,8 +1,8 @@
-﻿using System;
-using JetBrains.Annotations;
+﻿using JetBrains.Annotations;
 using Vostok.Configuration.Abstractions.SettingsTree;
+using Vostok.Configuration.Sources.File;
 
-namespace Vostok.Configuration.Sources
+namespace Vostok.Configuration.Sources.Json
 {
     /// <inheritdoc />
     /// <summary>
@@ -21,6 +21,6 @@ namespace Vostok.Configuration.Sources
         {
         }
 
-        private static (ISettingsNode settings, Exception error) ParseSettings(string str) => (new JsonStringSource(str).Get(), null);
+        private static ISettingsNode ParseSettings(string str) => new JsonConfigurationConverter().Convert(str);
     }
 }
