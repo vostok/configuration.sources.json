@@ -22,7 +22,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Reference Include="Vostok.Configuration.Abstractions, Version=0.0.5.0, Culture=neutral, PublicKeyToken=null">
+    <Reference Include="Vostok.Configuration.Abstractions">
       <HintPath>..\..\vostok.configuration.abstractions\Vostok.Configuration.Abstractions\bin\Release\netstandard2.0\Vostok.Configuration.Abstractions.dll</HintPath>
     </Reference>
   </ItemGroup>
