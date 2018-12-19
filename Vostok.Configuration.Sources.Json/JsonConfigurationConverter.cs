@@ -17,25 +17,25 @@ namespace Vostok.Configuration.Sources.Json
             if (jObject.Count <= 0)
                 return new ObjectNode(tokenKey);
 
-            var dict = new SortedDictionary<string, ISettingsNode>(StringComparer.InvariantCultureIgnoreCase);
+            var list = new List<ISettingsNode>();
             foreach (var token in jObject)
                 switch (token.Value.Type)
                 {
                     case JTokenType.Null:
-                        dict.Add(token.Key, new ValueNode(token.Key, null));
+                        list.Add(new ValueNode(token.Key, null));
                         break;
                     case JTokenType.Object:
-                        dict.Add(token.Key, ParseJson((JObject) token.Value, token.Key));
+                        list.Add(ParseJson((JObject) token.Value, token.Key));
                         break;
                     case JTokenType.Array:
-                        dict.Add(token.Key, ParseJson((JArray) token.Value, token.Key));
+                        list.Add(ParseJson((JArray) token.Value, token.Key));
                         break;
                     default:
-                        dict.Add(token.Key, new ValueNode(token.Key, token.Value.ToString()));
+                        list.Add(new ValueNode(token.Key, token.Value.ToString()));
                         break;
                 }
 
-            return new ObjectNode(tokenKey, dict);
+            return new ObjectNode(tokenKey, list);
         }
 
         private ISettingsNode ParseJson(JArray jArray, string tokenKey)

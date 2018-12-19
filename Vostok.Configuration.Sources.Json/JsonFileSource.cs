@@ -8,7 +8,7 @@ namespace Vostok.Configuration.Sources.Json
     /// <summary>
     /// Json converter to <see cref="ISettingsNode"/> tree from file
     /// </summary>
-    public class JsonFileSource : SingletonConfigurationSource
+    public class JsonFileSource : BaseFileSource
     {
         /// <inheritdoc />
         /// <summary>
@@ -16,8 +16,13 @@ namespace Vostok.Configuration.Sources.Json
         /// </summary>
         /// <param name="filePath">File name with settings</param>
         /// <param name="settings">File parsing settings</param>
-        public JsonFileSource([NotNull] string filePath, FileSourceSettings settings = null)
-            : base((filePath, settings), () => new BaseFileSource(filePath, settings, ParseSettings))
+        public JsonFileSource([NotNull] string filePath)
+            : this(new FileSourceSettings{FilePath = filePath})
+        {
+        }
+        
+        public JsonFileSource(FileSourceSettings settings)
+            : base(settings, ParseSettings)
         {
         }
 
