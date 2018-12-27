@@ -11,7 +11,7 @@ using Vostok.Configuration.Abstractions.SettingsTree;
 namespace Vostok.Configuration.Sources.Json.Tests
 {
     [TestFixture]
-    public class JsonConfigurationConverter_Tests
+    public class JsonConfigurationParser_Tests
     {
         [TestCase(null, TestName = "when string is null")]
         [TestCase(" ", TestName = "when string is whitespace")]
