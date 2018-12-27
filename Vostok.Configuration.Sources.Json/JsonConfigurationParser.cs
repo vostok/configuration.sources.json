@@ -1,22 +1,18 @@
-using System;
 using System.Collections.Generic;
 using Newtonsoft.Json.Linq;
 using Vostok.Configuration.Abstractions.SettingsTree;
 
 namespace Vostok.Configuration.Sources.Json
 {
-    public class JsonConfigurationConverter : IConfigurationConverter<string>
+    public class JsonConfigurationParser
     {
-        public ISettingsNode Convert(string configuration)
+        public static ISettingsNode Parse(string configuration)
         {
-            return string.IsNullOrWhiteSpace(configuration) ? null : ParseJson(JObject.Parse(configuration), "root");
+            return string.IsNullOrWhiteSpace(configuration) ? null : ParseJson(JObject.Parse(configuration));
         }
         
-        private ISettingsNode ParseJson(JObject jObject, string tokenKey)
+        private static ISettingsNode ParseJson(JObject jObject, string tokenKey = null)
         {
-            if (jObject.Count <= 0)
-                return new ObjectNode(tokenKey);
-
             var list = new List<ISettingsNode>();
             foreach (var token in jObject)
                 switch (token.Value.Type)
@@ -38,7 +34,7 @@ namespace Vostok.Configuration.Sources.Json
             return new ObjectNode(tokenKey, list);
         }
 
-        private ISettingsNode ParseJson(JArray jArray, string tokenKey)
+        private static ISettingsNode ParseJson(JArray jArray, string tokenKey)
         {
             if (jArray.Count <= 0)
                 return new ArrayNode(tokenKey);

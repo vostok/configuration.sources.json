@@ -17,15 +17,13 @@ namespace Vostok.Configuration.Sources.Json
         /// <param name="filePath">File name with settings</param>
         /// <param name="settings">File parsing settings</param>
         public JsonFileSource([NotNull] string filePath)
-            : this(new FileSourceSettings{FilePath = filePath})
+            : this(new FileSourceSettings(filePath))
         {
         }
         
         public JsonFileSource(FileSourceSettings settings)
-            : base(settings, ParseSettings)
+            : base(settings, JsonConfigurationParser.Parse)
         {
         }
-
-        private static ISettingsNode ParseSettings(string str) => new JsonConfigurationConverter().Convert(str);
     }
 }

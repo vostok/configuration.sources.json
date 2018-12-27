@@ -17,7 +17,7 @@ namespace Vostok.Configuration.Sources.Json
         /// <param name="json">Json data in string</param>
         /// <exception cref="Exception">Json has wrong format</exception>
         public JsonStringSource(string json)
-            : base(() => new JsonConfigurationConverter().Convert(json))
+            : base(() => JsonConfigurationParser.Parse(json))
         {
         }
     }

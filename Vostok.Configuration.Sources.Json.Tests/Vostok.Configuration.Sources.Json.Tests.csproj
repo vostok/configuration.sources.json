@@ -20,10 +20,19 @@
   <ItemGroup>
     <ProjectReference Include="..\Vostok.Configuration.Sources.Json\Vostok.Configuration.Sources.Json.csproj" />
   </ItemGroup>
+  
+  <ItemGroup>
+    <Compile Include="..\..\vostok.commons.testing\Vostok.Commons.Testing\Observable\ObservableAssertions.cs" Link="Commons\ObservableAssertions.cs" />
+    <Compile Include="..\..\vostok.commons.testing\Vostok.Commons.Testing\Observable\TestObserver.cs" Link="Commons\TestObserver.cs" />
+    <Compile Include="..\..\vostok.commons.testing\Vostok.Commons.Testing\TemporaryFile.cs" Link="Commons\TemporaryFile.cs" />
+  </ItemGroup>
 
   <ItemGroup>
     <Reference Include="Vostok.Configuration.Abstractions">
       <HintPath>..\..\vostok.configuration.abstractions\Vostok.Configuration.Abstractions\bin\Release\netstandard2.0\Vostok.Configuration.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Vostok.Configuration.Sources">
+      <HintPath>..\..\vostok.configuration.sources\Vostok.Configuration.Sources\bin\Release\netstandard2.0\Vostok.Configuration.Sources.dll</HintPath>
     </Reference>
   </ItemGroup>
 
