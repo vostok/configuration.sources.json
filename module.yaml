@@ -14,6 +14,9 @@ notests *default:
     - vostok.configuration.sources
 
 full-build > notests:
+  deps:
+    - vostok.commons.testing/src
+
   build:
     target: Vostok.Configuration.Sources.Json.sln
     configuration: Release
