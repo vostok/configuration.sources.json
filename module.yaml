@@ -7,6 +7,8 @@ notests *default:
 
   install:
     - Vostok.Configuration.Sources.Json/bin/Release/netstandard2.0/Vostok.Configuration.Sources.Json.dll
+    - module vostok.configuration.abstractions
+    - module vostok.configuration.sources
 
   deps:
     - vostok.devtools
