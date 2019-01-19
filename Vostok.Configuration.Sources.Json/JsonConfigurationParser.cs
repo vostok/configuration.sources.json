@@ -10,63 +10,66 @@ namespace Vostok.Configuration.Sources.Json
     {
         public static ISettingsNode Parse(string configuration)
         {
-            return string.IsNullOrWhiteSpace(configuration) ? null : ParseJson(JObject.Parse(configuration));
+            return string.IsNullOrWhiteSpace(configuration) ? null : ParseObject(JObject.Parse(configuration));
         }
         
-        private static ISettingsNode ParseJson(JObject jObject, string tokenKey = null)
+        private static ISettingsNode ParseObject(JObject jObject, string tokenKey = null)
         {
-            var list = new List<ISettingsNode>();
+            var childNodes = new List<ISettingsNode>(jObject.Count);
+
             foreach (var token in jObject)
                 switch (token.Value.Type)
                 {
                     case JTokenType.Null:
-                        list.Add(new ValueNode(token.Key, null));
+                        childNodes.Add(new ValueNode(token.Key, null));
                         break;
                     case JTokenType.Object:
-                        list.Add(ParseJson((JObject) token.Value, token.Key));
+                        childNodes.Add(ParseObject((JObject) token.Value, token.Key));
                         break;
                     case JTokenType.Array:
-                        list.Add(ParseJson((JArray) token.Value, token.Key));
+                        childNodes.Add(ParseArray((JArray) token.Value, token.Key));
                         break;
                     default:
-                        list.Add(new ValueNode(token.Key, token.Value.ToString()));
+                        childNodes.Add(new ValueNode(token.Key, token.Value.ToString()));
                         break;
                 }
 
-            return new ObjectNode(tokenKey, list);
+            return new ObjectNode(tokenKey, childNodes);
         }
 
-        private static ISettingsNode ParseJson(JArray jArray, string tokenKey)
+        private static ISettingsNode ParseArray(JArray array, string tokenKey)
         {
-            if (jArray.Count <= 0)
+            if (array.Count <= 0)
                 return new ArrayNode(tokenKey);
 
-            var list = new List<ISettingsNode>(jArray.Count);
-            var i = 0;
-            foreach (var item in jArray)
+            var childNodes = new List<ISettingsNode>(array.Count);
+            var index = 0;
+
+            foreach (var item in array)
             {
-                ISettingsNode obj;
+                ISettingsNode node;
+
                 switch (item.Type)
                 {
                     case JTokenType.Null:
-                        obj = new ValueNode(null);
+                        node = new ValueNode(null);
                         break;
                     case JTokenType.Object:
-                        obj = ParseJson((JObject) item, i.ToString());
+                        node = ParseObject((JObject) item, index.ToString());
                         break;
                     case JTokenType.Array:
-                        obj = ParseJson((JArray) item, i.ToString());
+                        node = ParseArray((JArray) item, index.ToString());
                         break;
                     default:
-                        obj = new ValueNode(item.ToString());
+                        node = new ValueNode(item.ToString());
                         break;
                 }
 
-                i++;
-                list.Add(obj);
+                index++;
+                childNodes.Add(node);
             }
 
-            return new ArrayNode(tokenKey, list);
+            return new ArrayNode(tokenKey, childNodes);
         }
     }
 }
