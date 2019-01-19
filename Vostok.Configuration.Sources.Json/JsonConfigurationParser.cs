@@ -12,7 +12,6 @@ namespace Vostok.Configuration.Sources.Json
         {
             CommentHandling = CommentHandling.Ignore,
             LineInfoHandling = LineInfoHandling.Ignore,
-            DuplicatePropertyNameHandling = DuplicatePropertyNameHandling.Replace
         };
 
         public static ISettingsNode Parse(string content)
