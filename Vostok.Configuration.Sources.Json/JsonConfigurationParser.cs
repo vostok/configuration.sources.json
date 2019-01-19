@@ -1,10 +1,12 @@
 using System.Collections.Generic;
+using JetBrains.Annotations;
 using Newtonsoft.Json.Linq;
 using Vostok.Configuration.Abstractions.SettingsTree;
 
 namespace Vostok.Configuration.Sources.Json
 {
-    public class JsonConfigurationParser
+    [PublicAPI]
+    public static class JsonConfigurationParser
     {
         public static ISettingsNode Parse(string configuration)
         {
