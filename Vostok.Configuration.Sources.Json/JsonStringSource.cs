@@ -1,21 +1,14 @@
-﻿using System;
-using Vostok.Configuration.Abstractions.SettingsTree;
+﻿using JetBrains.Annotations;
 using Vostok.Configuration.Sources.Constant;
 
 namespace Vostok.Configuration.Sources.Json
 {
-    /// <inheritdoc />
     /// <summary>
-    /// Json converter to <see cref="ISettingsNode"/> tree from string
+    /// A source that works by parsing in-memory JSON strings.
     /// </summary>
+    [PublicAPI]
     public class JsonStringSource : LazyConstantSource
     {
-        /// <summary>
-        /// <para>Creates a <see cref="JsonStringSource"/> instance using given string in <paramref name="json"/> parameter</para>
-        /// <para>Parsing is here.</para>
-        /// </summary>
-        /// <param name="json">Json data in string</param>
-        /// <exception cref="Exception">Json has wrong format</exception>
         public JsonStringSource(string json)
             : base(() => JsonConfigurationParser.Parse(json))
         {
