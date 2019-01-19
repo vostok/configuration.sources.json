@@ -16,13 +16,13 @@
 
   <PropertyGroup>
     <Title>Vostok.Configuration.Sources.Json</Title>
-    <Description>Vostok.Configuration.Sources.Json</Description>
+    <Description>Implementation of configuration sources based on JSON files and in-memory strings.</Description>
   </PropertyGroup>
 
   <PropertyGroup>
     <PackageProjectUrl>https://github.com/vostok/configuration.sources.json</PackageProjectUrl>
     <PackageLicenseUrl>https://github.com/vostok/configuration.sources.json/blob/master/LICENSE</PackageLicenseUrl>
-    <PackageTags>vostok</PackageTags>
+    <PackageTags>vostok vostok.configuration</PackageTags>
     <RepositoryUrl>https://github.com/vostok/configuration.sources.json</RepositoryUrl>
   </PropertyGroup>
 
