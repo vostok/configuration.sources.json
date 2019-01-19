@@ -8,11 +8,18 @@ namespace Vostok.Configuration.Sources.Json
     [PublicAPI]
     public static class JsonConfigurationParser
     {
-        public static ISettingsNode Parse(string configuration)
+        private static readonly JsonLoadSettings Settings = new JsonLoadSettings
         {
-            return string.IsNullOrWhiteSpace(configuration) ? null : ParseObject(JObject.Parse(configuration));
+            CommentHandling = CommentHandling.Ignore,
+            LineInfoHandling = LineInfoHandling.Ignore,
+            DuplicatePropertyNameHandling = DuplicatePropertyNameHandling.Replace
+        };
+
+        public static ISettingsNode Parse(string content)
+        {
+            return string.IsNullOrWhiteSpace(content) ? null : ParseObject(JObject.Parse(content, Settings));
         }
-        
+
         private static ISettingsNode ParseObject(JObject jObject, string tokenKey = null)
         {
             var childNodes = new List<ISettingsNode>(jObject.Count);
