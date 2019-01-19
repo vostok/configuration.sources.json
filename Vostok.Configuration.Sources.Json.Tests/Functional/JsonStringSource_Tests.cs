@@ -15,5 +15,16 @@ namespace Vostok.Configuration.Sources.Json.Tests.Functional
             source.Observe()
                 .ShouldStartWithIn(1.Seconds(),(TestCase.SettingsNode, null as Exception));
         }
+
+        [Test]
+        public void Should_propagate_changes_to_observers_on_external_push()
+        {
+            var source = new JsonStringSource("{ }");
+
+            source.Push(TestCase.Json);
+
+            source.Observe()
+                .ShouldStartWithIn(1.Seconds(), (TestCase.SettingsNode, null as Exception));
+        }
     }
 }
