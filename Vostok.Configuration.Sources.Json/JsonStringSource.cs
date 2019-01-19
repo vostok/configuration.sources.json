@@ -8,7 +8,7 @@ namespace Vostok.Configuration.Sources.Json
     /// <summary>
     /// Json converter to <see cref="ISettingsNode"/> tree from string
     /// </summary>
-    public class JsonStringSource : BaseConstantSource
+    public class JsonStringSource : LazyConstantSource
     {
         /// <summary>
         /// <para>Creates a <see cref="JsonStringSource"/> instance using given string in <paramref name="json"/> parameter</para>
