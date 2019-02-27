@@ -40,7 +40,41 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Newtonsoft.Json" Version="12.0.1" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.1" PrivateAssets="all" />
   </ItemGroup>
+
+  <PropertyGroup Condition="'$(OS)' == 'Windows_NT'">
+    <ILRepackExecutable>"$(MSBuildThisFileDirectory)..\..\vostok.devtools.ilrepack.bin\net40\ILRepack.exe"</ILRepackExecutable>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(OS)' != 'Windows_NT'">
+    <ILRepackExecutable>dotnet "$(MSBuildThisFileDirectory)../../vostok.devtools.ilrepack.bin/netcoreapp2.1/ILRepack.Core.dll"</ILRepackExecutable>
+  </PropertyGroup>
+
+  <Target Name="RestorePackageReferences" BeforeTargets="Build">
+    <ItemGroup>
+      <PackageReference Remove="Newtonsoft.Json" />
+      <PackageReference Include="Newtonsoft.Json" Version="12.0.1" />
+    </ItemGroup>
+  </Target>
   
+  <Target Name="SetupILRepackProperties" AfterTargets="Build">
+    <PropertyGroup>
+      <PubDirWithoutSlash>$(ProjectDir)bin/Publish/$(TargetFramework)/publish</PubDirWithoutSlash>
+      <PubDir>$(PubDirWithoutSlash)\</PubDir>
+    </PropertyGroup>
+  </Target>
+
+  <Target Name="Publishing" AfterTargets="SetupILRepackProperties" Condition="'$(Configuration)' != 'Publish'">
+    <Exec WorkingDirectory="$(ProjectDir)" Command="dotnet publish -c Publish -f $(TargetFramework)" />
+  </Target>
+
+  <Target Name="RepackAssemblies" AfterTargets="Publishing" Condition="'$(Configuration)' != 'Publish'">
+    <ItemGroup>
+      <MergeAssemblies Include="$(ProjectDir)$(OutputPath)$(AssemblyName).dll" />
+      <MergeAssemblies Include="$(PubDir)Newtonsoft.Json.dll" />
+    </ItemGroup>
+    <Exec WorkingDirectory="$(PubDir)" Command="$(ILRepackExecutable) /internalize /renameInternalized /log:ilrepack.log /lib:&quot;$(PubDirWithoutSlash)&quot; /out:$(ProjectDir)$(OutputPath)$(AssemblyName).dll @(MergeAssemblies->'%(RelativeDir)%(FileName)%(Extension)', ' ')" />
+  </Target>
+
 </Project>
