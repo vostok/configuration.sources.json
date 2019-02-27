@@ -142,14 +142,14 @@ namespace Vostok.Configuration.Sources.Json.Tests
         public void Should_throw_on_wrong_json_format()
         {
             const string value = "wrong format";
-            new Action(() => { JsonConfigurationParser.Parse(value); }).Should().Throw<JsonReaderException>();
+            new Action(() => { JsonConfigurationParser.Parse(value); }).Should().Throw<Exception>();
         }
 
         [Test]
         public void Should_throw_when_value_is_array()
         {
             const string value = "[1, 2]";
-            new Action(() => { JsonConfigurationParser.Parse(value); }).Should().Throw<JsonReaderException>();
+            new Action(() => { JsonConfigurationParser.Parse(value); }).Should().Throw<Exception>();
         }
     }
 }
