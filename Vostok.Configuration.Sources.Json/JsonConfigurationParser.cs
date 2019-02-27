@@ -15,9 +15,10 @@ namespace Vostok.Configuration.Sources.Json
         };
 
         public static ISettingsNode Parse(string content)
-        {
-            return string.IsNullOrWhiteSpace(content) ? null : ParseObject(JObject.Parse(content, Settings));
-        }
+            => Parse(content, null);
+
+        public static ISettingsNode Parse(string content, string rootName)
+            => string.IsNullOrWhiteSpace(content) ? null : ParseObject(JObject.Parse(content, Settings), rootName);
 
         private static ISettingsNode ParseObject(JObject jObject, string tokenKey = null)
         {
