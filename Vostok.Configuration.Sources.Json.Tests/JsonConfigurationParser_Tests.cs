@@ -145,10 +145,15 @@ namespace Vostok.Configuration.Sources.Json.Tests
         }
 
         [Test]
-        public void Should_throw_when_value_is_array()
+        public void Should_parse_root_array()
         {
             const string value = "[1, 2]";
-            new Action(() => { JsonConfigurationParser.Parse(value); }).Should().Throw<Exception>();
+
+            JsonConfigurationParser.Parse(value).Should().Be(new ArrayNode(new ISettingsNode[]
+            {
+                new ValueNode("0", "1"),
+                new ValueNode("1", "2")
+            }));
         }
 
         [Test]

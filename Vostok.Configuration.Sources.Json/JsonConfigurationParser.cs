@@ -1,5 +1,7 @@
 using System.Collections.Generic;
+using System.Linq;
 using JetBrains.Annotations;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Vostok.Configuration.Abstractions.SettingsTree;
 
@@ -18,30 +20,41 @@ namespace Vostok.Configuration.Sources.Json
             => Parse(content, null);
 
         public static ISettingsNode Parse(string content, string rootName)
-            => string.IsNullOrWhiteSpace(content) ? null : ParseObject(JObject.Parse(content, Settings), rootName);
+            => string.IsNullOrWhiteSpace(content) ? null : ParseRootToken(JToken.Parse(content, Settings), rootName);
 
-        private static ISettingsNode ParseObject(JObject jObject, string tokenKey = null)
+        private static ISettingsNode ParseRootToken(JToken token, string tokenKey = null)
         {
-            var childNodes = new List<ISettingsNode>(jObject.Count);
+            if (token is JObject jObject)
+                return new ObjectNode(tokenKey, ParseChildNodes(jObject));
 
-            foreach (var token in jObject)
+            if (token is JArray jArray)
+                return new ArrayNode(tokenKey, ParseChildNodes(jArray.Select((t, index) => new KeyValuePair<string, JToken>(index.ToString(), t))));
+
+            throw new JsonException($"Parsed root token was of unexpected type '{token?.GetType()}'.");
+        }
+
+        private static List<ISettingsNode> ParseChildNodes(IEnumerable<KeyValuePair<string, JToken>> childTokens)
+        {
+            var childNodes = new List<ISettingsNode>();
+
+            foreach (var token in childTokens)
                 switch (token.Value.Type)
                 {
                     case JTokenType.Null:
                         childNodes.Add(new ValueNode(token.Key, null));
                         break;
                     case JTokenType.Object:
-                        childNodes.Add(ParseObject((JObject) token.Value, token.Key));
+                        childNodes.Add(ParseRootToken((JObject)token.Value, token.Key));
                         break;
                     case JTokenType.Array:
-                        childNodes.Add(ParseArray((JArray) token.Value, token.Key));
+                        childNodes.Add(ParseArray((JArray)token.Value, token.Key));
                         break;
                     default:
                         childNodes.Add(new ValueNode(token.Key, token.Value.ToString()));
                         break;
                 }
 
-            return new ObjectNode(tokenKey, childNodes);
+            return childNodes;
         }
 
         private static ISettingsNode ParseArray(JArray array, string tokenKey)
@@ -62,7 +75,7 @@ namespace Vostok.Configuration.Sources.Json
                         node = new ValueNode(null);
                         break;
                     case JTokenType.Object:
-                        node = ParseObject((JObject) item, index.ToString());
+                        node = ParseRootToken((JObject) item, index.ToString());
                         break;
                     case JTokenType.Array:
                         node = ParseArray((JArray) item, index.ToString());
