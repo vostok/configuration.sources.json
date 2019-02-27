@@ -2,7 +2,6 @@ using System;
 using System.Globalization;
 using System.Linq;
 using FluentAssertions;
-using Newtonsoft.Json;
 using NUnit.Framework;
 using Vostok.Configuration.Abstractions.SettingsTree;
 
@@ -150,6 +149,14 @@ namespace Vostok.Configuration.Sources.Json.Tests
         {
             const string value = "[1, 2]";
             new Action(() => { JsonConfigurationParser.Parse(value); }).Should().Throw<Exception>();
+        }
+
+        [Test]
+        public void Should_respect_given_root_node_name()
+        {
+            var settings = JsonConfigurationParser.Parse("{ 'StringValue': 'string' }", "123");
+
+            settings.Name.Should().Be("123");
         }
     }
 }
