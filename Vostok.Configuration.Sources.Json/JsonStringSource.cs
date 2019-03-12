@@ -9,8 +9,13 @@ namespace Vostok.Configuration.Sources.Json
     [PublicAPI]
     public class JsonStringSource : ManualFeedSource<string>
     {
-        public JsonStringSource(string json)
+        public JsonStringSource()
             : base(JsonConfigurationParser.Parse)
+        {
+        }
+        
+        public JsonStringSource(string json)
+            : this()
         {
             Push(json);
         }
