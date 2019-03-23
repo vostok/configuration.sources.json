@@ -9,9 +9,9 @@ namespace Vostok.Configuration.Sources.Json.Tests.Functional
         {
             new ArrayNode("key", new []
             {
-                new ValueNode("1"),
-                new ValueNode("2"),
-                new ValueNode("3")
+                new ValueNode("0", "1"),
+                new ValueNode("1", "2"),
+                new ValueNode("2", "3")
             })
         });
     }
