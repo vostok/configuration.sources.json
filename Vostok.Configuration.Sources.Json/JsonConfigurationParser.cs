@@ -13,7 +13,7 @@ namespace Vostok.Configuration.Sources.Json
         private static readonly JsonLoadSettings Settings = new JsonLoadSettings
         {
             CommentHandling = CommentHandling.Ignore,
-            LineInfoHandling = LineInfoHandling.Ignore,
+            LineInfoHandling = LineInfoHandling.Ignore
         };
 
         public static ISettingsNode Parse(string content)
@@ -37,22 +37,8 @@ namespace Vostok.Configuration.Sources.Json
         {
             var childNodes = new List<ISettingsNode>();
 
-            foreach (var token in childTokens)
-                switch (token.Value.Type)
-                {
-                    case JTokenType.Null:
-                        childNodes.Add(new ValueNode(token.Key, null));
-                        break;
-                    case JTokenType.Object:
-                        childNodes.Add(ParseRootToken((JObject)token.Value, token.Key));
-                        break;
-                    case JTokenType.Array:
-                        childNodes.Add(ParseArray((JArray)token.Value, token.Key));
-                        break;
-                    default:
-                        childNodes.Add(new ValueNode(token.Key, token.Value.ToString()));
-                        break;
-                }
+            foreach (var namedToken in childTokens)
+                childNodes.Add(ParseToken(namedToken.Value, namedToken.Key));
 
             return childNodes;
         }
@@ -67,29 +53,28 @@ namespace Vostok.Configuration.Sources.Json
 
             foreach (var item in array)
             {
-                ISettingsNode node;
-
-                switch (item.Type)
-                {
-                    case JTokenType.Null:
-                        node = new ValueNode(null);
-                        break;
-                    case JTokenType.Object:
-                        node = ParseRootToken((JObject) item, index.ToString());
-                        break;
-                    case JTokenType.Array:
-                        node = ParseArray((JArray) item, index.ToString());
-                        break;
-                    default:
-                        node = new ValueNode(item.ToString());
-                        break;
-                }
+                var node = ParseToken(item, index.ToString());
 
                 index++;
                 childNodes.Add(node);
             }
 
             return new ArrayNode(tokenKey, childNodes);
+        }
+
+        private static ISettingsNode ParseToken(JToken token, string name)
+        {
+            switch (token.Type)
+            {
+                case JTokenType.Null:
+                    return new ValueNode(name, null);
+                case JTokenType.Object:
+                    return ParseRootToken((JObject)token, name);
+                case JTokenType.Array:
+                    return ParseArray((JArray)token, name);
+                default:
+                    return new ValueNode(name, token.ToString());
+            }
         }
     }
 }
