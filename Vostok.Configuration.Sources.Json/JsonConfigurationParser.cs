@@ -20,7 +20,19 @@ namespace Vostok.Configuration.Sources.Json
             => Parse(content, null);
 
         public static ISettingsNode Parse(string content, string rootName)
-            => string.IsNullOrWhiteSpace(content) ? null : ParseRootToken(JToken.Parse(content, Settings), rootName);
+        {
+            if (string.IsNullOrWhiteSpace(content))
+                return null;
+
+            var token = JToken.Parse(content, Settings);
+            if (token.Type == JTokenType.Null)
+                return null;
+
+            if (token is JValue jValue)
+                return new ValueNode(rootName, jValue.Value.ToString());
+
+            return ParseRootToken(token, rootName);
+        }
 
         private static ISettingsNode ParseRootToken(JToken token, string tokenKey = null)
         {

@@ -14,6 +14,7 @@ namespace Vostok.Configuration.Sources.Json.Tests
     {
         [TestCase(null, TestName = "when string is null")]
         [TestCase(" ", TestName = "when string is whitespace")]
+        [TestCase("null", TestName = "when string value is 'null'")]
         public void Should_return_null(string json)
         {
             JsonConfigurationParser.Parse(json).Should().BeNull();
