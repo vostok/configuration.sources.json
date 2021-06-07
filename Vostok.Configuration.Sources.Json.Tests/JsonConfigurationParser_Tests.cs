@@ -19,7 +19,7 @@ namespace Vostok.Configuration.Sources.Json.Tests
         {
             JsonConfigurationParser.Parse(json).Should().BeNull();
         }
-        
+
         [TestCase("")]
         [TestCase("string")]
         public void Should_parse_string_value(string value)
@@ -81,7 +81,7 @@ namespace Vostok.Configuration.Sources.Json.Tests
             var result = JsonConfigurationParser.Parse(value);
             result["Object"]["StringValue"].Value.Should().Be("str");
         }
-        
+
         [Test]
         public void Should_parse_empty_Object_value()
         {
@@ -90,12 +90,12 @@ namespace Vostok.Configuration.Sources.Json.Tests
             var result = JsonConfigurationParser.Parse(value);
             result["Object"].Should().Be(new ObjectNode("Object"));
         }
-        
+
         [Test]
         public void Should_parse_ArrayOfObjects_value()
         {
             const string value = "{ 'Array': [{ 'StringValue': 'str' }, { 'IntValue': 123 }] }";
-            
+
             var result = JsonConfigurationParser.Parse(value);
             result["Array"].Children.Count().Should().Be(2);
             result["Array"].Children.First()["StringValue"].Value.Should().Be("str");
@@ -128,9 +128,9 @@ namespace Vostok.Configuration.Sources.Json.Tests
             const string value = "{ }";
 
             var result = JsonConfigurationParser.Parse(value);
-            result.Should().Be(new ObjectNode(new ISettingsNode[]{}));
+            result.Should().Be(new ObjectNode(new ISettingsNode[] {}));
         }
-        
+
         [Test]
         public void Should_ignore_key_case()
         {
@@ -150,11 +150,13 @@ namespace Vostok.Configuration.Sources.Json.Tests
         {
             const string value = "[1, 2]";
 
-            JsonConfigurationParser.Parse(value).Should().Be(new ArrayNode(new ISettingsNode[]
-            {
-                new ValueNode("0", "1"),
-                new ValueNode("1", "2")
-            }));
+            JsonConfigurationParser.Parse(value)
+                .Should()
+                .Be(new ArrayNode(new ISettingsNode[]
+                {
+                    new ValueNode("0", "1"),
+                    new ValueNode("1", "2")
+                }));
         }
 
         [Test]

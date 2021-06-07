@@ -13,7 +13,7 @@ namespace Vostok.Configuration.Sources.Json
             : this(new FileSourceSettings(filePath))
         {
         }
-        
+
         public JsonFileSource([NotNull] FileSourceSettings settings)
             : base(settings, JsonConfigurationParser.Parse)
         {
