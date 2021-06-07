@@ -13,7 +13,7 @@ namespace Vostok.Configuration.Sources.Json
             : base(JsonConfigurationParser.Parse)
         {
         }
-        
+
         public JsonStringSource(string json)
             : this()
         {

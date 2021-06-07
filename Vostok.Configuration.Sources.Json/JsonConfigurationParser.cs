@@ -89,10 +89,10 @@ namespace Vostok.Configuration.Sources.Json
                         node = new ValueNode(null);
                         break;
                     case JTokenType.Object:
-                        node = ParseRootToken((JObject) item, index.ToString());
+                        node = ParseRootToken((JObject)item, index.ToString());
                         break;
                     case JTokenType.Array:
-                        node = ParseArray((JArray) item, index.ToString());
+                        node = ParseArray((JArray)item, index.ToString());
                         break;
                     default:
                         node = new ValueNode(item.ToString());

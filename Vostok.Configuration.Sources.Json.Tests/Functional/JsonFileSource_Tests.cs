@@ -16,7 +16,7 @@ namespace Vostok.Configuration.Sources.Json.Tests.Functional
             {
                 var source = new JsonFileSource(temporaryFile.FileName);
                 source.Observe()
-                    .ShouldStartWithIn(1.Seconds(),(TestCase.SettingsNode, null as Exception));
+                    .ShouldStartWithIn(1.Seconds(), (TestCase.SettingsNode, null as Exception));
             }
         }
     }

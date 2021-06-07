@@ -11,9 +11,9 @@ namespace Vostok.Configuration.Sources.Json.Tests.Functional
         public void Should_work_correctly()
         {
             var source = new JsonStringSource(TestCase.Json);
-            
+
             source.Observe()
-                .ShouldStartWithIn(1.Seconds(),(TestCase.SettingsNode, null as Exception));
+                .ShouldStartWithIn(1.Seconds(), (TestCase.SettingsNode, null as Exception));
         }
 
         [Test]
