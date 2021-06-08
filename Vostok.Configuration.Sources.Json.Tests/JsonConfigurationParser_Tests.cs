@@ -190,35 +190,21 @@ namespace Vostok.Configuration.Sources.Json.Tests
         }
 
         [Test]
-        public void Should_skip_comments()
+        public void Should_fail_on_comments()
         {
-            var json = @"{
-// hello
-    ""A"": ""2020-11-16T00:00:00.000+06:00"",
+            var json = @"
+// root
+{
+// my
+    ""A"": ""1"",
     ""B"": [
         // world 
-        ""2020-11-16T00:00:00.000+06:00"" 
+        ""2"" 
     ]
 }
 ";
 
             var parsed = JsonConfigurationParser.Parse(json);
-
-            parsed.Should()
-                .BeEquivalentTo(
-                    new ObjectNode(
-                        null,
-                        new ISettingsNode[]
-                        {
-                            new ValueNode("A", "2020-11-16T00:00:00.000+06:00"),
-                            new ArrayNode("B", new[] {new ValueNode(null, "2020-11-16T00:00:00.000+06:00")})
-                        }));
-
-            var a = parsed.ScopeTo("A");
-            var b = parsed.ScopeTo("B").Children.First();
-
-            a.Value.Should().Contain("2020-11-16T00:00:00.000+06:00");
-            b.Value.Should().Contain("2020-11-16T00:00:00.000+06:00");
         }
     }
 }
