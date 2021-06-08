@@ -1,6 +1,4 @@
-using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 using JetBrains.Annotations;
 using Newtonsoft.Json;
@@ -64,7 +62,7 @@ namespace Vostok.Configuration.Sources.Json
                         childNodes.Add(ParseArray((JArray)token.Value, token.Key));
                         break;
                     default:
-                        childNodes.Add(new ValueNode(token.Key, Convert.ToString(token.Value, CultureInfo.InvariantCulture)));
+                        childNodes.Add(new ValueNode(token.Key, token.Value.ToString()));
                         break;
                 }
 
