@@ -190,7 +190,7 @@ namespace Vostok.Configuration.Sources.Json.Tests
         }
 
         [Test]
-        public void Should_fail_on_comments()
+        public void Should_skip_comments()
         {
             var json = @"
 // root
@@ -205,6 +205,16 @@ namespace Vostok.Configuration.Sources.Json.Tests
 ";
 
             var parsed = JsonConfigurationParser.Parse(json);
+
+            parsed.Should()
+                .BeEquivalentTo(
+                    new ObjectNode(
+                        null,
+                        new ISettingsNode[]
+                        {
+                            new ValueNode("A", "1"),
+                            new ArrayNode("B", new[] {new ValueNode(null, "2")})
+                        }));
         }
     }
 }

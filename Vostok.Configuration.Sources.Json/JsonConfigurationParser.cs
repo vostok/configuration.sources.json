@@ -11,6 +11,12 @@ namespace Vostok.Configuration.Sources.Json
     [PublicAPI]
     public static class JsonConfigurationParser
     {
+        private static readonly JsonLoadSettings LoadSettings = new JsonLoadSettings
+        {
+            CommentHandling = CommentHandling.Ignore,
+            LineInfoHandling = LineInfoHandling.Ignore,
+        };
+
         public static ISettingsNode Parse(string content)
             => Parse(content, null);
 
@@ -25,7 +31,7 @@ namespace Vostok.Configuration.Sources.Json
             {
                 DateParseHandling = DateParseHandling.None,
             })
-                token = JToken.Load(reader);
+                token = JToken.Load(reader, LoadSettings);
 
             if (token.Type == JTokenType.Null)
                 return null;
