@@ -187,12 +187,6 @@ namespace Vostok.Configuration.Sources.Json.Tests
                             new ValueNode("A", "2020-11-16T00:00:00.000+06:00"),
                             new ArrayNode("B", new[] {new ValueNode(null, "2020-11-16T00:00:00.000+06:00")})
                         }));
-
-            var a = parsed.ScopeTo("A");
-            var b = parsed.ScopeTo("B").Children.First();
-
-            a.Value.Should().Contain("2020-11-16T00:00:00.000+06:00");
-            b.Value.Should().Contain("2020-11-16T00:00:00.000+06:00");
         }
 
         [Test]
