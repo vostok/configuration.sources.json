@@ -31,7 +31,7 @@ namespace Vostok.Configuration.Sources.Json.Tests
 
             parsed2.Should().BeEquivalentTo(parsed);
         }
-        
+
         [Test]
         public void Should_not_corrupt_date()
         {
@@ -44,8 +44,8 @@ namespace Vostok.Configuration.Sources.Json.Tests
             var parsed = JsonConfigurationParser.Parse(json);
 
             var printed = JsonConfigurationPrinter.Print(parsed);
-            printed.Should().Contain("2020-11-16T00:00:00.000+06:00");            
-            
+            printed.Should().Contain("2020-11-16T00:00:00.000+06:00");
+
             var parsed2 = JsonConfigurationParser.Parse(printed);
 
             parsed2.Should().BeEquivalentTo(parsed);
