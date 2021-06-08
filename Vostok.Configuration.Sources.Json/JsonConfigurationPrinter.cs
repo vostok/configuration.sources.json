@@ -1,18 +1,20 @@
 ﻿using System.Linq;
+using JetBrains.Annotations;
 using Newtonsoft.Json.Linq;
 using Vostok.Configuration.Abstractions.SettingsTree;
 
 namespace Vostok.Configuration.Sources.Json
 {
-    internal static class JsonConfigurationPrinter
+    [PublicAPI]
+    public static class JsonConfigurationPrinter
     {
         public static string Print(ISettingsNode node)
         {
-            var token = Build(node);
-            return token.ToString();
+            var built = Build(node);
+            return built.ToString();
         }
 
-        private static JToken Build(ISettingsNode node)
+        private static object Build(ISettingsNode node)
         {
             switch (node)
             {
