@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using JetBrains.Annotations;
 using Newtonsoft.Json;
@@ -10,11 +11,6 @@ namespace Vostok.Configuration.Sources.Json
     [PublicAPI]
     public static class JsonConfigurationParser
     {
-        private static readonly JsonSerializerSettings Settings = new JsonSerializerSettings
-        {
-            DateParseHandling = DateParseHandling.None
-        };
-
         public static ISettingsNode Parse(string content)
             => Parse(content, null);
 
@@ -23,7 +19,14 @@ namespace Vostok.Configuration.Sources.Json
             if (string.IsNullOrWhiteSpace(content))
                 return null;
 
-            var token = JsonConvert.DeserializeObject<JToken>(content, Settings);
+            JToken token;
+
+            using (var reader = new JsonTextReader(new StringReader(content))
+            {
+                DateParseHandling = DateParseHandling.None,
+            })
+                token = JToken.Load(reader);
+
             if (token.Type == JTokenType.Null)
                 return null;
 

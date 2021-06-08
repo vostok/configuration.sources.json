@@ -166,7 +166,7 @@ namespace Vostok.Configuration.Sources.Json.Tests
 
             settings.Name.Should().Be("123");
         }
-        
+
         [Test]
         public void Should_not_corrupt_date()
         {
@@ -180,11 +180,11 @@ namespace Vostok.Configuration.Sources.Json.Tests
 
             var a = parsed.ScopeTo("A");
             var b = parsed.ScopeTo("B").Children.First();
-            
-            a.Value.Should().Contain("2020-11-16T00:00:00.000+06:00");            
+
+            a.Value.Should().Contain("2020-11-16T00:00:00.000+06:00");
             b.Value.Should().Contain("2020-11-16T00:00:00.000+06:00");
         }
-        
+
         [Test]
         public void Should_not_corrupt_decimal()
         {
@@ -198,8 +198,8 @@ namespace Vostok.Configuration.Sources.Json.Tests
 
             var a = parsed.ScopeTo("A");
             var b = parsed.ScopeTo("B").Children.First();
-            
-            a.Value.Should().Contain("0.333");            
+
+            a.Value.Should().Contain("0.333");
             b.Value.Should().Contain("0.333");
         }
     }
