@@ -10,10 +10,9 @@ namespace Vostok.Configuration.Sources.Json
     [PublicAPI]
     public static class JsonConfigurationParser
     {
-        private static readonly JsonLoadSettings Settings = new JsonLoadSettings
+        private static readonly JsonSerializerSettings Settings = new JsonSerializerSettings
         {
-            CommentHandling = CommentHandling.Ignore,
-            LineInfoHandling = LineInfoHandling.Ignore,
+            DateParseHandling = DateParseHandling.None
         };
 
         public static ISettingsNode Parse(string content)
@@ -24,7 +23,7 @@ namespace Vostok.Configuration.Sources.Json
             if (string.IsNullOrWhiteSpace(content))
                 return null;
 
-            var token = JToken.Parse(content, Settings);
+            var token = JsonConvert.DeserializeObject<JToken>(content, Settings);
             if (token.Type == JTokenType.Null)
                 return null;
 
