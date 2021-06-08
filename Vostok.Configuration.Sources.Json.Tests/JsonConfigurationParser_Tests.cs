@@ -178,6 +178,16 @@ namespace Vostok.Configuration.Sources.Json.Tests
 
             var parsed = JsonConfigurationParser.Parse(json);
 
+            parsed.Should()
+                .BeEquivalentTo(
+                    new ObjectNode(
+                        null,
+                        new ISettingsNode[]
+                        {
+                            new ValueNode("A", "2020-11-16T00:00:00.000+06:00"),
+                            new ArrayNode("B", new[] {new ValueNode(null, "2020-11-16T00:00:00.000+06:00")})
+                        }));
+
             var a = parsed.ScopeTo("A");
             var b = parsed.ScopeTo("B").Children.First();
 
@@ -186,21 +196,35 @@ namespace Vostok.Configuration.Sources.Json.Tests
         }
 
         [Test]
-        public void Should_not_corrupt_decimal()
+        public void Should_skip_comments()
         {
             var json = @"{
-    ""A"": ""0.333"",
-    ""B"": [ ""0.333"" ]
+// hello
+    ""A"": ""2020-11-16T00:00:00.000+06:00"",
+    ""B"": [
+        // world 
+        ""2020-11-16T00:00:00.000+06:00"" 
+    ]
 }
 ";
 
             var parsed = JsonConfigurationParser.Parse(json);
 
+            parsed.Should()
+                .BeEquivalentTo(
+                    new ObjectNode(
+                        null,
+                        new ISettingsNode[]
+                        {
+                            new ValueNode("A", "2020-11-16T00:00:00.000+06:00"),
+                            new ArrayNode("B", new[] {new ValueNode(null, "2020-11-16T00:00:00.000+06:00")})
+                        }));
+
             var a = parsed.ScopeTo("A");
             var b = parsed.ScopeTo("B").Children.First();
 
-            a.Value.Should().Contain("0.333");
-            b.Value.Should().Contain("0.333");
+            a.Value.Should().Contain("2020-11-16T00:00:00.000+06:00");
+            b.Value.Should().Contain("2020-11-16T00:00:00.000+06:00");
         }
     }
 }
