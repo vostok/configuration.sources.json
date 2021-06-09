@@ -15,7 +15,7 @@ namespace Vostok.Configuration.Sources.Json.Helpers
         private static readonly JsonMergeSettings MergeSettings = new JsonMergeSettings
         {
             MergeArrayHandling = MergeArrayHandling.Replace,
-            MergeNullValueHandling = MergeNullValueHandling.Ignore
+            MergeNullValueHandling = MergeNullValueHandling.Merge
         };
 
         public static JToken Parse(string content)
