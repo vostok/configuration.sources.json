@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using JetBrains.Annotations;
 using Vostok.Configuration.Abstractions.SettingsTree;
 using Vostok.Configuration.Sources.Json.Helpers;
@@ -14,25 +15,29 @@ namespace Vostok.Configuration.Sources.Json
         {
             result = null;
 
-            if (!(a is ValueNode aValue) || aValue.Name?.EndsWith(JsonExtension) != true)
+            if (a.Name?.EndsWith(JsonExtension) != true)
+                return false;
+            if (b.Name?.EndsWith(JsonExtension) != true)
                 return false;
 
-            if (!(b is ValueNode bValue) || bValue.Name?.EndsWith(JsonExtension) != true)
+            if (a.Name != b.Name)
                 return false;
 
-            if (aValue.Name != bValue.Name)
+            if (!TryGetValue(a, out var aValue))
+                return false;
+            if (!TryGetValue(b, out var bValue))
                 return false;
 
             try
             {
-                var aParsed = JsonHelper.Parse(aValue.Value);
-                var bParsed = JsonHelper.Parse(bValue.Value);
+                var aParsed = JsonHelper.Parse(aValue);
+                var bParsed = JsonHelper.Parse(bValue);
 
                 var merged = JsonHelper.Merge(aParsed, bParsed);
 
                 var json = merged.ToString();
 
-                result = new ValueNode(aValue.Name, json);
+                result = new ValueNode(a.Name, json);
 
                 return true;
             }
@@ -40,6 +45,21 @@ namespace Vostok.Configuration.Sources.Json
             {
                 return false;
             }
+        }
+
+        private static bool TryGetValue(ISettingsNode node, out string result)
+        {
+            if (node is ValueNode valueNode)
+            {
+                result = valueNode.Value;
+                return true;
+            }
+
+            if (node is ObjectNode objectNode && objectNode.Children.Count() == 1)
+                return TryGetValue(objectNode.Children.Single(), out result);
+
+            result = null;
+            return false;
         }
     }
 }
