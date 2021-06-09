@@ -1,5 +1,6 @@
 ﻿using FluentAssertions;
 using NUnit.Framework;
+using Vostok.Configuration.Sources.Json.Helpers;
 
 namespace Vostok.Configuration.Sources.Json.Tests
 {
