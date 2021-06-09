@@ -19,7 +19,7 @@ namespace Vostok.Configuration.Sources.Json
             if (string.IsNullOrWhiteSpace(content))
                 return null;
 
-            var token = JsonParser.Parse(content);
+            var token = JsonHelper.Parse(content);
 
             if (token.Type == JTokenType.Null)
                 return null;
