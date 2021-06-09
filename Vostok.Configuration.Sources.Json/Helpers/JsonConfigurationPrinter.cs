@@ -1,12 +1,10 @@
 ﻿using System.Linq;
-using JetBrains.Annotations;
 using Newtonsoft.Json.Linq;
 using Vostok.Configuration.Abstractions.SettingsTree;
 
-namespace Vostok.Configuration.Sources.Json
+namespace Vostok.Configuration.Sources.Json.Helpers
 {
-    [PublicAPI]
-    public static class JsonConfigurationPrinter
+    internal static class JsonConfigurationPrinter
     {
         public static string Print(ISettingsNode node)
         {
