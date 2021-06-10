@@ -35,9 +35,11 @@ namespace Vostok.Configuration.Sources.Json
 
                 var merged = JsonHelper.Merge(aParsed, bParsed);
 
-                var json = merged.ToString();
+                var mergedJson = merged.ToString();
 
-                result = new ValueNode(a.Name, json);
+                result = a is ObjectNode && b is ObjectNode
+                    ? (ISettingsNode)new ObjectNode(a.Name, new []{new ValueNode(string.Empty, mergedJson)})
+                    : new ValueNode(a.Name, mergedJson);
 
                 return true;
             }
