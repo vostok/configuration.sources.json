@@ -27,6 +27,9 @@ namespace Vostok.Configuration.Sources.Json.Helpers
                 return JToken.Load(reader, LoadSettings);
         }
 
+        public static string Write(JToken token) =>
+            token.ToString(Formatting.Indented);
+
         public static JToken Merge(JToken a, JToken b)
         {
             if (a.Type == JTokenType.Object && b.Type == JTokenType.Object)
