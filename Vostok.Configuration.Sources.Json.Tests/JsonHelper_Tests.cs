@@ -16,12 +16,12 @@ namespace Vostok.Configuration.Sources.Json.Tests
 }";
             var json2 = @"{
   ""B"": 3,
-  ""C"": 4
+  ""C"": ""4""
 }";
             var json3 = @"{
   ""A"": 1,
   ""B"": 3,
-  ""C"": 4
+  ""C"": ""4""
 }";
             
             Check(json1, json2, json3);
@@ -102,6 +102,22 @@ namespace Vostok.Configuration.Sources.Json.Tests
 }";
             var json2 = @"2";
             var json3 = @"2";
+            
+            Check(json1, json2, json3);
+        }
+        
+        [Test]
+        public void Should_erase_whole_object_with_string_number_value()
+        {
+            var json1 = @"{
+  ""A"": { ""AA"": 1 },
+  ""B"": [
+    2,
+    3 
+  ]
+}";
+            var json2 = @"""2""";
+            var json3 = @"""2""";
             
             Check(json1, json2, json3);
         }
