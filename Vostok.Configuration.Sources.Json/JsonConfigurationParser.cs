@@ -4,18 +4,13 @@ using JetBrains.Annotations;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Vostok.Configuration.Abstractions.SettingsTree;
+using Vostok.Configuration.Sources.Json.Helpers;
 
 namespace Vostok.Configuration.Sources.Json
 {
     [PublicAPI]
     public static class JsonConfigurationParser
     {
-        private static readonly JsonLoadSettings Settings = new JsonLoadSettings
-        {
-            CommentHandling = CommentHandling.Ignore,
-            LineInfoHandling = LineInfoHandling.Ignore,
-        };
-
         public static ISettingsNode Parse(string content)
             => Parse(content, null);
 
@@ -24,7 +19,8 @@ namespace Vostok.Configuration.Sources.Json
             if (string.IsNullOrWhiteSpace(content))
                 return null;
 
-            var token = JToken.Parse(content, Settings);
+            var token = JsonHelper.Parse(content);
+
             if (token.Type == JTokenType.Null)
                 return null;
 
