@@ -1,5 +1,6 @@
 ﻿using FluentAssertions;
 using NUnit.Framework;
+using Vostok.Configuration.Sources.Json.Helpers;
 
 namespace Vostok.Configuration.Sources.Json.Tests
 {
@@ -26,6 +27,25 @@ namespace Vostok.Configuration.Sources.Json.Tests
             var parsed = JsonConfigurationParser.Parse(json);
 
             var printed = JsonConfigurationPrinter.Print(parsed);
+
+            var parsed2 = JsonConfigurationParser.Parse(printed);
+
+            parsed2.Should().BeEquivalentTo(parsed);
+        }
+
+        [Test]
+        public void Should_not_corrupt_date()
+        {
+            var json = @"{
+    ""A"": ""2020-11-16T00:00:00.000+06:00"",
+    ""B"": [ ""2020-11-16T00:00:00.000+06:00"" ]
+}
+";
+
+            var parsed = JsonConfigurationParser.Parse(json);
+
+            var printed = JsonConfigurationPrinter.Print(parsed);
+            printed.Should().Contain("2020-11-16T00:00:00.000+06:00");
 
             var parsed2 = JsonConfigurationParser.Parse(printed);
 

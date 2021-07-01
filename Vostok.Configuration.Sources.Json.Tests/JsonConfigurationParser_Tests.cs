@@ -166,5 +166,55 @@ namespace Vostok.Configuration.Sources.Json.Tests
 
             settings.Name.Should().Be("123");
         }
+
+        [Test]
+        public void Should_not_corrupt_date()
+        {
+            var json = @"{
+    ""A"": ""2020-11-16T00:00:00.000+06:00"",
+    ""B"": [ ""2020-11-16T00:00:00.000+06:00"" ]
+}
+";
+
+            var parsed = JsonConfigurationParser.Parse(json);
+
+            parsed.Should()
+                .BeEquivalentTo(
+                    new ObjectNode(
+                        null,
+                        new ISettingsNode[]
+                        {
+                            new ValueNode("A", "2020-11-16T00:00:00.000+06:00"),
+                            new ArrayNode("B", new[] {new ValueNode(null, "2020-11-16T00:00:00.000+06:00")})
+                        }));
+        }
+
+        [Test]
+        public void Should_skip_comments()
+        {
+            var json = @"
+// root
+{
+// my
+    ""A"": ""1"",
+    ""B"": [
+        // world 
+        ""2"" 
+    ]
+}
+";
+
+            var parsed = JsonConfigurationParser.Parse(json);
+
+            parsed.Should()
+                .BeEquivalentTo(
+                    new ObjectNode(
+                        null,
+                        new ISettingsNode[]
+                        {
+                            new ValueNode("A", "1"),
+                            new ArrayNode("B", new[] {new ValueNode(null, "2")})
+                        }));
+        }
     }
 }
