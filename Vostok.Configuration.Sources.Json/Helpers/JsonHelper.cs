@@ -30,6 +30,9 @@ namespace Vostok.Configuration.Sources.Json.Helpers
         public static string Write(JToken token) =>
             token.ToString(Formatting.Indented);
 
+        public static string Merge(string json1, string json2) =>
+            Write(Merge(Parse(json1), Parse(json2)));
+        
         public static JToken Merge(JToken a, JToken b)
         {
             if (a.Type == JTokenType.Object && b.Type == JTokenType.Object)

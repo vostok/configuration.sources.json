@@ -124,16 +124,13 @@ namespace Vostok.Configuration.Sources.Json.Tests
 
         private void Check(string json1, string json2, string json3)
         {
-            var merged = Merge(json1, json2);
+            var merged = JsonHelper.Merge(json1, json2);
 
             merged = Normalize(merged);
             json3 = Normalize(json3);
             
             merged.Should().Be(json3);
         }
-
-        private static string Merge(string json1, string json2) =>
-            JsonHelper.Write(JsonHelper.Merge(JsonHelper.Parse(json1), JsonHelper.Parse(json2)));
 
         private static string Normalize(string s) =>
             s.Replace("\r\n", "\n");
