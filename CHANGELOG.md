@@ -1,3 +1,7 @@
+## 0.1.6 (10-12-2021):
+
+Fixed string comparison with ignore case.
+
 ## 0.1.5 (06-12-2021):
 
 Added `net6.0` target.
