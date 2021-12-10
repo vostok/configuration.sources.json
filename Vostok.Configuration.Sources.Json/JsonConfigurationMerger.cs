@@ -15,12 +15,12 @@ namespace Vostok.Configuration.Sources.Json
         {
             result = null;
 
-            if (a.Name?.EndsWith(JsonExtension) != true)
+            if (a.Name?.EndsWith(JsonExtension, StringComparison.InvariantCultureIgnoreCase) != true)
                 return false;
-            if (b.Name?.EndsWith(JsonExtension) != true)
+            if (b.Name?.EndsWith(JsonExtension, StringComparison.InvariantCultureIgnoreCase) != true)
                 return false;
 
-            if (a.Name != b.Name)
+            if (!string.Equals(a.Name, b.Name, StringComparison.InvariantCultureIgnoreCase))
                 return false;
 
             if (!TryGetValue(a, out var aValue))
