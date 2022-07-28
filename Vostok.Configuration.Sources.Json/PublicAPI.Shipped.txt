@@ -1,0 +1,11 @@
+static Vostok.Configuration.Sources.Json.JsonConfigurationMerger.TryMerge(Vostok.Configuration.Abstractions.SettingsTree.ISettingsNode a, Vostok.Configuration.Abstractions.SettingsTree.ISettingsNode b, out Vostok.Configuration.Abstractions.SettingsTree.ISettingsNode result) -> bool
+static Vostok.Configuration.Sources.Json.JsonConfigurationParser.Parse(string content) -> Vostok.Configuration.Abstractions.SettingsTree.ISettingsNode
+static Vostok.Configuration.Sources.Json.JsonConfigurationParser.Parse(string content, string rootName) -> Vostok.Configuration.Abstractions.SettingsTree.ISettingsNode
+Vostok.Configuration.Sources.Json.JsonConfigurationMerger
+Vostok.Configuration.Sources.Json.JsonConfigurationParser
+Vostok.Configuration.Sources.Json.JsonFileSource
+Vostok.Configuration.Sources.Json.JsonFileSource.JsonFileSource(string filePath) -> void
+Vostok.Configuration.Sources.Json.JsonFileSource.JsonFileSource(Vostok.Configuration.Sources.File.FileSourceSettings settings) -> void
+Vostok.Configuration.Sources.Json.JsonStringSource
+Vostok.Configuration.Sources.Json.JsonStringSource.JsonStringSource() -> void
+Vostok.Configuration.Sources.Json.JsonStringSource.JsonStringSource(string json) -> void
