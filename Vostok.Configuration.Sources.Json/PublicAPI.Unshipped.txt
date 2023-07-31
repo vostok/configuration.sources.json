@@ -1,0 +1,1 @@
+static Vostok.Configuration.Sources.Json.JsonConfigurationParser.Parse(string content, string rootName, System.Func<string, string> internDelegate) -> Vostok.Configuration.Abstractions.SettingsTree.ISettingsNode
