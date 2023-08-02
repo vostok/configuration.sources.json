@@ -1,4 +1,4 @@
-## 0.1.7 (10-12-2021):
+## 0.1.8 (10-12-2021):
 
 Add options to deserialize Json with the interning of keys and values.
 
