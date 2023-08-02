@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using FluentAssertions;
@@ -215,6 +216,29 @@ namespace Vostok.Configuration.Sources.Json.Tests
                             new ValueNode("A", "1"),
                             new ArrayNode("B", new[] {new ValueNode(null, "2")})
                         }));
+        }
+
+        [Test]
+        public void Should_intern_values()
+        {
+            const string value = "{ 'A': 'x', 'B': 'x', 'C': 'x' }";
+
+            var interningDictionary = new Dictionary<string, string>();
+            var result = JsonConfigurationParser.Parse(value, null, s =>
+            {
+                if (s == null)
+                    return null;
+                if (!interningDictionary.TryGetValue(s, out var x))
+                {
+                    x = s;
+                    interningDictionary.Add(s, s);
+                }
+
+                return x;
+            });
+            ReferenceEquals(result["A"].Value, interningDictionary["x"]).Should().BeTrue();
+            ReferenceEquals(result["B"].Value, interningDictionary["x"]).Should().BeTrue();
+            ReferenceEquals(result["C"].Value, interningDictionary["x"]).Should().BeTrue();
         }
     }
 }
