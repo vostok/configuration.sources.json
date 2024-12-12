@@ -1,3 +1,7 @@
+## 0.1.9 (12-12-2024): 
+
+Bump NuGet deps versions
+
 ## 0.1.8 (08-02-2023):
 
 Add options to deserialize Json with the interning of keys and values.
