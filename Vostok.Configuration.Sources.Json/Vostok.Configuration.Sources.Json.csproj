@@ -23,12 +23,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Reference Include="Vostok.Configuration.Abstractions">
-      <HintPath>..\..\vostok.configuration.abstractions\Vostok.Configuration.Abstractions\bin\Release\$(ReferencesFramework)\Vostok.Configuration.Abstractions.dll</HintPath>
-    </Reference>
-    <Reference Include="Vostok.Configuration.Sources">
-      <HintPath>..\..\vostok.configuration.sources\Vostok.Configuration.Sources\bin\Release\$(ReferencesFramework)\Vostok.Configuration.Sources.dll</HintPath>
-    </Reference>
+    <ModuleReference Include="vostok.configuration.sources" />
   </ItemGroup>
 
   <ItemGroup>
